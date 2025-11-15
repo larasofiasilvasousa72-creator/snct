@@ -1523,7 +1523,7 @@ input, select, textarea {
 		-webkit-transition: all .25s ease-in-out;
 		-ms-transition: all .25s ease-in-out;
 		transition: all .25s ease-in-out;
-		-webkit-appearance: none;
+	
 		display: block;
 		border: 0;
 		background: #eee;
@@ -2988,3 +2988,48 @@ input, select, textarea {
 						}
 
 	}
+	/*
+ * Adicione estas regras ao seu arquivo assets/css/main.css
+ */
+
+/* 1. Prepara todas as imagens para a transição suave */
+#main img,
+.image img,
+.highlight img {
+    transition: transform 0.3s ease-in-out; /* Define a transição de 0.3 segundos para a propriedade 'transform' */
+}
+
+/* 2. Aplica o Zoom de 3% (1.03) quando o mouse passa por cima */
+#main img:hover,
+.image img:hover,
+.highlight img:hover {
+    transform: scale(1.03); /* Aumenta a imagem para 103% do tamanho original */
+    cursor: pointer; /* Adiciona um cursor de ponteiro para indicar que é interativo */
+}
+
+/*
+ * ADICIONE ESTE BLOCO NO FINAL DO ARQUIVO assets/css/main.css
+ * para arredondar as bordas das imagens.
+ */
+
+/* Aplica border-radius a todas as imagens relevantes do seu site */
+.image img,           /* Imagens da sidebar */
+.highlight img,       /* Imagens da seção "VEJA NOSSAS OUTRAS PÁGINAS" */
+article img,          /* Imagem principal do relato (Edenise Alves) */
+#sidebar img          /* Qualquer imagem diretamente na sidebar (como a da Edenise pequena) */
+{
+    border-radius: 8px; /* Arredonda os cantos em 8 pixels */
+    /* Você pode ajustar o valor (ex: 5px, 10px, 15px) para mudar o nível de arredondamento.
+       Use 50% para um formato circular (se a imagem for quadrada). */
+}
+
+/* Opcional: Se você estiver usando o efeito de sombra, também arredonde a sombra */
+.image img:hover,
+.highlight img:hover,
+article img:hover,
+#sidebar img:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Sombra que se move no hover */
+    border-radius: 10px; /* Garante que a sombra também siga o arredondamento da imagem */
+}
+
+
