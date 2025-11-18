@@ -10,34 +10,147 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<style>
+			/* Efeito de digitação */
+			#typing {
+			border-right: 2px solid rgba(255,255,255,0.9);
+			padding-right: 6px;
+			white-space: nowrap;
+			display:inline-block;
+			animation: blink 0.7s steps(1) infinite;
+			font-size: 1.2rem;
+			letter-spacing: 2px;
+			}
+
+			@keyframes blink {
+			50% { border-color: transparent; }
+			}
+			 /* --- NOVO CSS PARA A ONDA DE CUIDADO --- */
+
+            /* Contêiner para posicionar as ondas */
+           #onda-container {
+                position: absolute; 
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 100%; /* Isso garante que ele ocupe 100% do #header */
+                overflow: hidden;
+                z-index: 1; /* A onda deve ficar no fundo, abaixo do texto (z-index do texto e nav deve ser maior) */
+                pointer-events: none;
+            }
+
+            /* Animação de movimento horizontal suave */
+            @keyframes moverOnda {
+                0% { transform: translate3d(-50px, 0, 0); } /* Começa ligeiramente para a esquerda */
+                100% { transform: translate3d(50px, 0, 0); } /* Termina ligeiramente para a direita */
+            }
+
+            /* Estilo para a primeira onda (mais lenta e profunda) */
+            #onda-1 {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                height: 250px; /* Altura da onda no container */
+            }
+            #onda-1 path {
+                fill: rgba(255, 255, 255, 0.1); /* Cor branca suave e transparente */
+                animation: moverOnda 30s linear infinite alternate; /* 30s = muito lento */
+            }
+
+            /* Estilo para a segunda onda (mais rápida e superficial) */
+            #onda-2 {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                height: 250px;
+            }
+            #onda-2 path {
+                fill: rgba(255, 255, 255, 0.05); /* Mais transparente ainda */
+                animation: moverOnda 20s linear infinite alternate-reverse; /* 20s = mais rápida e no sentido inverso */
+            }
+            
+            /* Ajuste para o #header para que o z-index funcione */
+            #header.wrapper {
+                position: relative;
+                z-index: 10;
+            }
+            
+            /* Ajuste visual para as imagens dos filmes */
+            .feature-list h3 img.h3-img {
+                width: 40px; /* Tamanho da imagem */
+                height: 40px;
+                object-fit: cover;
+                border-radius: 50%; /* Deixa a imagem redonda */
+                margin-right: 10px;
+                vertical-align: middle;
+            }
+			#header.wrapper {
+                position: relative; /* Essencial para que os elementos internos absolutos se posicionem corretamente */
+                z-index: 10;
+                /* Você já tem a cor de fundo definida provavelmente em assets/css/main.css, 
+                   mas se quiser forçar a cor (como o teal da sua imagem), use: */
+                /* background-color: #008080; /* Exemplo de teal */
+                
+                /* Importante: Remova qualquer margin ou padding extra que possa estar empurrando o intro */
+                margin-bottom: 0 !important; 
+                padding-bottom: 0 !important;
+            }
+		</style>
 	</head>
 	<body class="no-sidebar is-preload">
 		<div id="page-wrapper">
 
 			<!-- Header -->
-				<section id="header" class="wrapper">
-
-					<!-- Logo -->
-						<div id="logo">
-							<h1><a href="index.html">Histórias Reais</a></h1>
-							<p>Os relatos que inspiram e transformam.</p>
+					<section id="header" class="wrapper">
+                    
+                <div id="onda-container">
+        
+                        
+                        <svg id="onda-1" viewBox="0 24 150 28" preserveAspectRatio="none">
+                            <defs>
+                                <path id="wave-path-1" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                            </defs>
+                            <g class="path">
+                                <use xlink:href="#wave-path-1" x="50" y="0" />
+                            </g>
+                        </svg>
+                        
+                        <svg id="onda-2" viewBox="0 24 150 28" preserveAspectRatio="none">
+                            <defs>
+                                <path id="wave-path-2" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                            </defs>
+                            <g class="path">
+                                <use xlink:href="#wave-path-2" x="50" y="0" />
+                            </g>
+                        </svg>
+                    </div>
+                   <div id="logo">
+							<h1><a href="no-sidebar.html">Histórias Reais</a></h1>
+							<p class="subtitulo">
+								<span id="typing"></span>
+							</p>
+						
 						</div>
 
-					<!-- Nav -->
-						<nav id="nav">
+					<nav id="nav">
 							<ul>
-								<li><a href="index.html">Inicio</a></li>
+								<li><a href="index.html">Início</a></li>
 								<li>
 									<a href="estatisticas.html">Estatísticas</a>
 								</li>
 								<li class="current"><a href="RedeDeApoio.html">Rede de apoio</a></li>
 								<li><a href="right-sidebar.html">Autocuidado</a></li>
-								<li><a href="no-sidebar.html">Histórias Reais</a></li>
+								<li class="active"><a href="no-sidebar.html">Histórias Reais</a></li>
 							</ul>
 						</nav>
 
 
 				</section>
+
+                
+        
+
+			
 
 		<!-- Main -->
 				<section id="main" class="wrapper style2">
@@ -212,6 +325,7 @@ A mensagem final de Edenise é um chamado ao autocuidado: <b>“Quem cuida preci
 				<!-- Footer -->
 				
 			<section id="footer" class="wrapper">
+			 <div id="footer-wrapper" style = "background-color: #0b2d41;">
 					<div class="title">Entre em Contato</div>
 					<div class="container">
 						<header class="style1">
@@ -290,7 +404,7 @@ A mensagem final de Edenise é um chamado ao autocuidado: <b>“Quem cuida preci
 						</div>
 					</div>
 				</section>
-
+		</div>
 		</div>
 
 		<script src="assets/js/jquery.min.js"></script>
@@ -298,7 +412,23 @@ A mensagem final de Edenise é um chamado ao autocuidado: <b>“Quem cuida preci
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+			<script src="assets/js/main.js"></script>	
+			<!-- SCRIPT DO EFEITO DE DIGITAÇÃO -->
+		<script>
+			const text = "Os relatos que inspiram e transformam.";
+			let index = 0;
+
+			function typeWriter() {
+				const el = document.getElementById("typing");
+				if (!el) return;
+				if (index < text.length) {
+					el.innerHTML += text.charAt(index);
+					index++;
+					setTimeout(typeWriter, 70);
+				}
+			}
+			window.addEventListener("load", typeWriter);
+		</script>
 
 	</body>
 </html>

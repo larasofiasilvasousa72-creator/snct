@@ -10,27 +10,143 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+
+			<style>
+            /* Efeito de digitação */
+            #typing {
+            border-right: 2px solid rgba(255,255,255,0.9);
+            padding-right: 6px;
+            white-space: nowrap;
+            display:inline-block;
+            animation: blink 0.7s steps(1) infinite;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            }
+
+            @keyframes blink {
+            50% { border-color: transparent; }
+            }
+
+            /* --- NOVO CSS PARA A ONDA DE CUIDADO --- */
+
+            /* Contêiner para posicionar as ondas */
+           #onda-container {
+                position: absolute; 
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 100%; /* Isso garante que ele ocupe 100% do #header */
+                overflow: hidden;
+                z-index: 1; /* A onda deve ficar no fundo, abaixo do texto (z-index do texto e nav deve ser maior) */
+                pointer-events: none;
+            }
+
+            /* Animação de movimento horizontal suave */
+            @keyframes moverOnda {
+                0% { transform: translate3d(-50px, 0, 0); } /* Começa ligeiramente para a esquerda */
+                100% { transform: translate3d(50px, 0, 0); } /* Termina ligeiramente para a direita */
+            }
+
+            /* Estilo para a primeira onda (mais lenta e profunda) */
+            #onda-1 {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                height: 250px; /* Altura da onda no container */
+            }
+            #onda-1 path {
+                fill: rgba(255, 255, 255, 0.1); /* Cor branca suave e transparente */
+                animation: moverOnda 30s linear infinite alternate; /* 30s = muito lento */
+            }
+
+            /* Estilo para a segunda onda (mais rápida e superficial) */
+            #onda-2 {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                height: 250px;
+            }
+            #onda-2 path {
+                fill: rgba(255, 255, 255, 0.05); /* Mais transparente ainda */
+                animation: moverOnda 20s linear infinite alternate-reverse; /* 20s = mais rápida e no sentido inverso */
+            }
+            
+            /* Ajuste para o #header para que o z-index funcione */
+            #header.wrapper {
+                position: relative;
+                z-index: 10;
+            }
+            
+            /* Ajuste visual para as imagens dos filmes */
+            .feature-list h3 img.h3-img {
+                width: 40px; /* Tamanho da imagem */
+                height: 40px;
+                object-fit: cover;
+                border-radius: 50%; /* Deixa a imagem redonda */
+                margin-right: 10px;
+                vertical-align: middle;
+            }
+			#header.wrapper {
+                position: relative; /* Essencial para que os elementos internos absolutos se posicionem corretamente */
+                z-index: 10;
+                /* Você já tem a cor de fundo definida provavelmente em assets/css/main.css, 
+                   mas se quiser forçar a cor (como o teal da sua imagem), use: */
+                /* background-color: #008080; /* Exemplo de teal */
+                
+                /* Importante: Remova qualquer margin ou padding extra que possa estar empurrando o intro */
+                margin-bottom: 0 !important; 
+                padding-bottom: 0 !important;
+            }
+        </style>
+
+
+
 	</head>
 	<body class="homepage is-preload">
+		
 		<div id="page-wrapper">
+
+    
 
 			<!-- Header -->
 				<section id="header" class="wrapper">
-
-					<!-- Logo -->
-						<div id="logo">
-							<h1><a href="index.html"> Quem Cuida de Quem Cuida?</a></h1>
-							<p>Quem cuida de todos, também precisa ser cuidado.</p>
+                    
+                <div id="onda-container">
+        
+                        
+                        <svg id="onda-1" viewBox="0 24 150 28" preserveAspectRatio="none">
+                            <defs>
+                                <path id="wave-path-1" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                            </defs>
+                            <g class="path">
+                                <use xlink:href="#wave-path-1" x="50" y="0" />
+                            </g>
+                        </svg>
+                        
+                        <svg id="onda-2" viewBox="0 24 150 28" preserveAspectRatio="none">
+                            <defs>
+                                <path id="wave-path-2" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                            </defs>
+                            <g class="path">
+                                <use xlink:href="#wave-path-2" x="50" y="0" />
+                            </g>
+                        </svg>
+                    </div>
+                   <div id="logo">
+							<h1><a href="index.html">Quem cuida de quem cuida?</a></h1>
+							<p class="subtitulo">
+								<span id="typing"></span>
+							</p>
+						
 						</div>
 
-					<!-- Nav -->
-						<nav id="nav">
+					<nav id="nav">
 							<ul>
-								<li><a href="index.html">Inicio</a></li>
+								<li class="active"><a href="index.html">Início</a></li>
 								<li>
 									<a href="estatisticas.html">Estatísticas</a>
 								</li>
-								<li class="current"><a href="RedeDeApoio.html">Rede de apoio</a></li>
+								<li><a href="RedeDeApoio.html">Rede de apoio</a></li>
 								<li><a href="right-sidebar.html">Autocuidado</a></li>
 								<li><a href="no-sidebar.html">Histórias Reais</a></li>
 							</ul>
@@ -38,6 +154,8 @@
 
 
 				</section>
+
+
 
 			<!-- Intro -->
 				<section id="intro" class="wrapper style1">
@@ -49,9 +167,9 @@
                            <br class="mobile-hide" />
 						</p>
 						<p class="style3">"Se todos os cuidadores parassem por 1 dia, o que aconteceria?"<br>
-                        → hospitais fecham, crianças sem aula, idosos desamparados, famílias em colapso.</p>
+                        → hospitais fecham, crianças sem aula, idosos desamparados, famílias em colapso.</p>
 						<ul class="actions">
-							<li><!-- Voltar para apagar depois de alteras css--></li>
+							<li></li>
 						</ul>
 					</div>
 				</section>
@@ -62,10 +180,8 @@
 					<div class="container">
 
 						<!-- Image -->
-		
 						<div class ="image featured">
 						<img src="images/foto_intro.jpg" alt="" />
-							</a>
 						</div>
 
 						<!-- Features -->
@@ -73,61 +189,56 @@
 								<header class="style1">
 									<h2>Filmes que abordam a temática</h2>
 								</header>
+
 								<div class="feature-list">
 									<div class="row">
-<!--Voltar depois par
-a alterar as imagens -->		  <div class="col-6 col-12-medium">
+										<div class="col-6 col-12-medium">
 											<section>
-												<h3 class="icon fa-heart"> Amor (2012, Michael Haneke)</h3>
-												<p>Um casal de idosos enfrenta as consequências do AVC da esposa. O marido se torna cuidador em tempo integral, revelando os desafios físicos, emocionais e existenciais do cuidado.</p>
+												<h3><img class="h3-img" src="images/amor.jpg" alt=""> Amor (2012, Michael Haneke)</h3>
+												<p>Um casal de idosos enfrenta as consequências do AVC da esposa. O marido se torna cuidador em tempo integral, revelando os desafios físicos e emocionais dessa nova realidade.</p>
 											</section>
 										</div>
 										<div class="col-6 col-12-medium">
 											<section>
-												<h3 class="icon solid fa-users">Ainda Muito Loucos (The Savages, 2007, Tamara Jenkins)</h3>
-												<p>Dois irmãos adultos precisam assumir os cuidados do pai idoso e doente. O filme mostra como o ato de cuidar transforma as relações familiares e também revela fragilidades pessoais.</p>
+												<h3><img class="h3-img" src="images/still-crazy.jpg" alt="">Ainda Muito Loucos (The Savages, 2007, Tamara Jenkins)</h3>
+												<p>Dois irmãos adultos precisam assumir os cuidados do pai idoso e doente. O filme mostra como o ato de cuidar pode transformar relações familiares e revelar sentimentos profundos.</p>
 											</section>
 										</div>
 										<div class="col-6 col-12-medium">
 											<section>
-												<h3 class="icon fa-eye">O Escafandro e a Borboleta (2007, Julian Schnabel)</h3>
-												<p>Baseado em fatos reais, acompanha Jean-Dominique Bauby, editor de revista que, após um derrame, só consegue se comunicar piscando o olho. O longa mostra a dedicação dos cuidadores e a força do vínculo humano.</p>
+												<h3><img class="h3-img" src="images/escanfandro.jpg" alt="">O Escafandro e a Borboleta (2007, Julian Schnabel)</h3>
+												<p>Baseado em fatos reais, o filme narra a história de Jean-Dominique Bauby, que sofre um derrame cerebral e fica com o corpo paralisado, mas mantém a mente ativa. A obra destaca os desafios e a força necessários para cuidar de alguém em estado tão vulnerável.</p>
 											</section>
 										</div>
 										<div class="col-6 col-12-medium">
 											<section>
-												<h3 class="icon solid fa-brain">Longe Dela (Away from Her, 2006, Sarah Polley)</h3>
-												<p>Um homem vê sua esposa, diagnosticada com Alzheimer, perder a memória e se afastar dele em uma clínica. Um retrato sensível sobre amor, cuidado e renúncia.</p>
+												<h3><img class="h3-img" src="images/longe-dela.jpeg" alt="">Longe Dela (Away from Her, 2006, Sarah Polley)</h3>
+												<p>Um homem vê sua esposa, diagnosticada com Alzheimer, perder e se afastar dele em uma clínica. Um retrato sensível das complexidades do amor e do cuidado diante da doença.</p>
 											</section>
 										</div>
 										<div class="col-6 col-12-medium">
 											<section>
-
-												<h3 class="icon solid fa-home">Meu Pai (The Father, 2020, Florian Zeller)</h3>
-												<p>Com atuação premiada de Anthony Hopkins, o filme mostra o ponto de vista de um idoso com demência, enquanto sua filha enfrenta o dilema emocional de cuidar dele..</p>
+												<h3><img class="h3-img" src="images/meu pai.png" alt="">Meu Pai (The Father, 2020, Florian Zeller)</h3>
+												<p>Com pontuação premiada de Anthony Hopkins, o filme aborda a perspectiva de um idoso com demência e os desafios enfrentados por seus cuidadores.</p>
 											</section>
 										</div>
 										<div class="col-6 col-12-medium">
 											<section>
-												<h3 class="icon solid fa-book-open">Diário de uma Paixão (The Notebook, 2004, Nick Cassavetes)</h3>
-												<p>Além da famosa história de amor, o filme revela a dedicação de um marido que, já idoso, visita diariamente sua esposa em uma clínica, lendo-lhe um diário para amenizar os efeitos do Alzheimer.</p>
+												<h3><img class="h3-img" src="images/diario.webp" alt="">Diário de uma Paixão (The Notebook, 2004)</h3>
+												<p>Além da famosa história de amor, o filme revela a dedicação de um marido visitando sua esposa todos os dias, mesmo após ela ser diagnosticada com Alzheimer, mostrando o poder do cuidado e da memória afetiva.</p>
 											</section>
 										</div>
 									</div>
 								</div>
-								<ul class="actions special">
-								<!--Voltar aqui-->
-								</ul>
+
+								<ul class="actions special"></ul>
 							</section>
 
 					</div>
 				</section>
 
-			<!-- Highlights -->
-				
-						
 			<!-- Footer -->
-				
+					
 			<section id="footer" class="wrapper">
 					<div class="title">Entre em Contato</div>
 					<div class="container">
@@ -209,13 +320,29 @@ a alterar as imagens -->		  <div class="col-6 col-12-medium">
 				</section>
 
 		</div>
-
 		<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.dropotron.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+		<script src="assets/js/jquery.dropotron.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+		<!-- SCRIPT DO EFEITO DE DIGITAÇÃO -->
+		<script>
+			const text = "Quem cuida de todos, também precisa ser cuidado.";
+			let index = 0;
+
+			function typeWriter() {
+				const el = document.getElementById("typing");
+				if (!el) return;
+				if (index < text.length) {
+					el.innerHTML += text.charAt(index);
+					index++;
+					setTimeout(typeWriter, 70);
+				}
+			}
+			window.addEventListener("load", typeWriter);
+		</script>
 
 	</body>
 </html>

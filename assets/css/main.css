@@ -2096,7 +2096,7 @@ input, select, textarea {
 			font-weight: 900;
 			text-transform: uppercase;
 			color: #fff;
-			font-size: 2em;
+			font-size: 2.8em;
 			letter-spacing: 0.25em;
 		}
 
@@ -2107,62 +2107,88 @@ input, select, textarea {
 			margin: 1.25em 0 0 0;
 			display: block;
 			letter-spacing: 0.2em;
-			font-size: 0.9em;
+			font-size: 1.3em;
 		}
 
 /* Nav */
+#nav {
+    position: absolute;
+    display: block;
+    top: 2.5em;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
 
-	#nav {
-		position: absolute;
-		display: block;
-		top: 2.5em;
-		left: 0;
-		width: 100%;
-		text-align: center;
-	}
+#nav > ul {
+    display: inline-block;
+    border-radius: 0.5em;
+    box-shadow: 0px 0px 8px rgba(255,255,255,0.3), inset 0 0 2px rgba(255,255,255,0.3);
+    padding: 0px;           /* maior para destacar */
+    background: rgba(255,255,255,0.15); /* mais nítido */
+    backdrop-filter: blur(5px);
+}
 
-		#nav > ul {
-			display: inline-block;
-			border-radius: 0.35em;
-			box-shadow: inset 0px 0px 1px 1px rgba(255, 255, 255, 0.25);
-			padding: 0 1.5em 0 1.5em;
-		}
+#nav > ul > li {
+    display: inline-block;
+    text-align: center !important;
+    padding:  0  1.5em;
+}
 
-			#nav > ul > li {
-				display: inline-block;
-				text-align: center;
-				padding: 0 1.5em 0 1.5em;
-			}
+#nav > ul > li > a, 
+#nav > ul > li > span {
+    position: relative;   /* permite animação underline */
+    display: block;
+    color: rgba(255, 255, 255, 0.85);
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 1.15em;
+    letter-spacing: 0.35em;
+    height: 4em;
+    line-height: 4em;
+    transition: all .25s ease-in-out;
+    outline: 0;
+}
 
-				#nav > ul > li > ul {
-					display: none;
-				}
+/* HOVER: underline animado */
+#nav > ul > li > a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0.8em;
+    width: 0;
+    height: 3px;
+    background: #ff90c7;
+    border-radius: 3px;
+    transform: translateX(-50%);
+    transition: width 0.25s ease-in-out;
+}
 
-				#nav > ul > li > a, #nav > ul > li > span {
-					display: block;
-					color: #eee;
-					color: rgba(255, 255, 255, 0.75);
-					text-transform: uppercase;
-					text-decoration: none;
-					font-size: 0.7em;
-					letter-spacing: 0.25em;
-					height: 5em;
-					line-height: 5em;
-					-moz-transition: all .25s ease-in-out;
-					-webkit-transition: all .25s ease-in-out;
-					-o-transition: all .25s ease-in-out;
-					-ms-transition: all .25s ease-in-out;
-					transition: all .25s ease-in-out;
-					outline: 0;
-				}
+#nav > ul > li:hover > a {
+    color: #fff;
+}
 
-				#nav > ul > li:hover > a {
-					color: #fff;
-				}
+#nav > ul > li:hover > a::after {
+    width: 60%;
+}
 
-				#nav > ul > li.active > a, #nav > ul > li.active > span {
-					color: #fff;
-				}
+/* ACTIVE: indicador fixo + cor específica */
+#nav > ul > li.active > a {
+    color: #ffffff; /* cor diferente para identificar página */
+    font-weight: 400;
+}
+
+#nav > ul > li.active > a::after {
+    width: 60%;
+    background: #ffffff;
+}
+
+/* CLICK EFFECT */
+#nav > ul > li > a:active {
+    transform: scale(0.92);
+    opacity: 0.65;
+}
+
 
 	.dropotron {
 		background: #222835 url("images/overlay.png");
@@ -2217,12 +2243,18 @@ input, select, textarea {
 	#intro {
 		padding-bottom: 8em;
 		text-align: center;
+		position: relativegi;
 	}
 
 		#intro p.style1 {
 			font-size: 1.5em;
 			letter-spacing: 0.075em;
+			margin-top: 10px !important;
+			position: relative; 
+            z-index: 0;
+			position: relative;
 		}
+		
 
 		#intro p.style2 {
 			font-weight: 700;
@@ -2256,7 +2288,21 @@ input, select, textarea {
 	#features ul.actions {
 		margin-top: 5em;
 	}
-
+.h3-img {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  padding: 0px;
+  margin-left: -80px;
+  margin-right: 25px;
+  object-fit: cover;
+  vertical-align: middle;
+}
+h3 {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
 /* Highlights */
 
 	#highlights .highlight {
@@ -2459,10 +2505,12 @@ input, select, textarea {
 
 			#intro {
 				padding-bottom: 7em;
+				position: relative;
 			}
 
 				#intro p.style1 {
 					font-size: 1.25em;
+					position: relative;
 				}
 
 				#intro p.style2 {
@@ -2675,7 +2723,7 @@ input, select, textarea {
 				position: fixed;
 				top: 0;
 				width: 275px;
-				z-index: 10002;
+				z-index: -10;
 				background: #242730 url("images/overlay.png");
 				box-shadow: inset -3px 0px 4px 0px rgba(0, 0, 0, 0.1);
 			}
@@ -2913,10 +2961,12 @@ input, select, textarea {
 				padding-left: 2em;
 				padding-bottom: 5em;
 				margin: 0 auto;
+				position: relative;
 			}
 
 				#intro p.style1 {
 					margin-bottom: 1.5em;
+					position: relative;
 				}
 
 				#intro p.style2 {
@@ -3031,5 +3081,17 @@ article img:hover,
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Sombra que se move no hover */
     border-radius: 10px; /* Garante que a sombra também siga o arredondamento da imagem */
 }
-
+.title{
+   position: absolute;
+    top: -25px; /* ajuste fino */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    background: #fff; /* coloque a cor correta */
+    padding: 10px 25px;
+    border-radius: 4px;
+    font-weight: bold;
+    letter-spacing: 2px;
+	text-align: center;
+}
 
