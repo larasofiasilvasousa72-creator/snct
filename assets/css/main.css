@@ -1959,23 +1959,21 @@ input, select, textarea {
 	}
 
 		.wrapper .title {
-			position: absolute;
-			top: 0;
-			left: 50%;
-			text-align: center;
-			text-transform: uppercase;
-			display: block;
-			font-weight: 700;
-			letter-spacing: 0.25em;
-			font-size: 0.9em;
-			width: 25em;
-			height: 3.25em;
-			top: -3.25em;
-			line-height: 3.25em;
-			margin-bottom: -3.25em;
-			margin-left: -12.5em;
-			padding-top: 0.5em;
-		}
+    position: absolute;
+    top: -3.25em;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    text-transform: uppercase;
+    display: block;
+    font-size: 0.9em;
+    width: 25em;
+    height: 3.25em;
+    line-height: 3.25em;
+    margin-bottom: -3.25em;
+    padding-top: 0.5em;
+}
+
 
 			.wrapper .title:before {
 				content: '';
@@ -3092,6 +3090,6 @@ article img:hover,
     border-radius: 4px;
     font-weight: bold;
     letter-spacing: 2px;
-	text-align: center;
+	justify-content: center;
 }
 
