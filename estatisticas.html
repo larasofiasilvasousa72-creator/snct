@@ -1,637 +1,742 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-	<head>
-		<title>Estatísticas</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <head>
+    <title>Estatísticas</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
-        <style>
-           
-            @keyframes cor-suave {
-                0% { background-position: 0% 50%; }
-                50% { background-position: 100% 50%; }
-                100% { background-position: 0% 50%; }
-            }
+    <style>
+      /* Animação suave de cor no header */
+      @keyframes cor-suave {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
 
-            #header {
-              
-                background: linear-gradient(-45deg, #e6f7ff, #cceeff, #e6f7ff); 
-                background-size: 400% 400%; 
-                /* Aplica a animação, duração de 25 segundos para ser bem sutil */
-                animation: cor-suave 25s ease infinite; 
-            }
+      #header {
+        background: linear-gradient(-45deg, #e6f7ff, #cceeff, #e6f7ff);
+        background-size: 400% 400%;
+        animation: cor-suave 25s ease infinite;
+      }
 
-            /* ANIMAÇÃO 2: Efeito de Pulso (Crescimento e Opacidade) nos números de destaque */
-            @keyframes pulso-dados-foco {
-                0% { 
-                    opacity: 1; 
-                    transform: scale(1);
-                }
-                50% { 
-                    opacity: 0.8; /* Fica um pouco transparente */
-                    transform: scale(1.02); /* Cresce 2% */
-                }
-                100% { 
-                    opacity: 1; 
-                    transform: scale(1);
-                }
-            }
+      /* ANIMAÇÃO: pulso nos números em destaque */
+      @keyframes pulso-dados-foco {
+        0% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.8;
+          transform: scale(1.02);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
 
-            .pulso-dados {
-                display: inline-block; /* Crucial para o 'transform' funcionar no texto */
-                color: #CC3333; /* Cor de destaque (vermelho de alerta) */
-                font-size: 1.1em;
-                font-weight: bold;
-                /* Aplica a animação: 4 segundos para um pulso suave e infinito */
-                animation: pulso-dados-foco 4s ease-in-out infinite; 
-            }
-			
-			/* Efeito de digitação */
-			#typing {
-			border-right: 2px solid rgba(255,255,255,0.9);
-			padding-right: 6px;
-			white-space: nowrap;
-			display:inline-block;
-			animation: blink 0.7s steps(1) infinite;
-			font-size: 1.2rem;
-			letter-spacing: 2px;
-			}
+      .pulso-dados {
+        display: inline-block;
+        color: #cc3333;
+        font-size: 1.1em;
+        font-weight: bold;
+        animation: pulso-dados-foco 4s ease-in-out infinite;
+      }
 
-			@keyframes blink {
-			50% { border-color: transparent; }
-			}
-			   /* --- NOVO CSS PARA A ONDA DE CUIDADO --- */
+      /* Efeito de digitação */
+      #typing {
+        border-right: 2px solid rgba(255, 255, 255, 0.9);
+        padding-right: 6px;
+        white-space: nowrap;
+        display: inline-block;
+        animation: blink 0.7s steps(1) infinite;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+      }
 
-            /* Contêiner para posicionar as ondas */
-           #onda-container {
-                position: absolute; 
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                height: 100%; /* Isso garante que ele ocupe 100% do #header */
-                overflow: hidden;
-                z-index: 1; /* A onda deve ficar no fundo, abaixo do texto (z-index do texto e nav deve ser maior) */
-                pointer-events: none;
-            }
+      @keyframes blink {
+        50% {
+          border-color: transparent;
+        }
+      }
 
-            /* Animação de movimento horizontal suave */
-            @keyframes moverOnda {
-                0% { transform: translate3d(-50px, 0, 0); } /* Começa ligeiramente para a esquerda */
-                100% { transform: translate3d(50px, 0, 0); } /* Termina ligeiramente para a direita */
-            }
+      /* --- ONDA DE CUIDADO --- */
 
-            /* Estilo para a primeira onda (mais lenta e profunda) */
-            #onda-1 {
-                position: absolute;
-                bottom: 0;
-                width: 100%;
-                height: 250px; /* Altura da onda no container */
-            }
-            #onda-1 path {
-                fill: rgba(255, 255, 255, 0.1); /* Cor branca suave e transparente */
-                animation: moverOnda 30s linear infinite alternate; /* 30s = muito lento */
-            }
+      /* Contêiner para posicionar as ondas */
+      #onda-container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0; /* Fica no fundo */
+        pointer-events: none; /* Não bloqueia cliques */
+      }
 
-            /* Estilo para a segunda onda (mais rápida e superficial) */
-            #onda-2 {
-                position: absolute;
-                bottom: 0;
-                width: 100%;
-                height: 250px;
-            }
-            #onda-2 path {
-                fill: rgba(255, 255, 255, 0.05); /* Mais transparente ainda */
-                animation: moverOnda 20s linear infinite alternate-reverse; /* 20s = mais rápida e no sentido inverso */
-            }
-            
-            /* Ajuste para o #header para que o z-index funcione */
-            #header.wrapper {
-                position: relative;
-                z-index: 10;
-            }
-            
-            /* Ajuste visual para as imagens dos filmes */
-            .feature-list h3 img.h3-img {
-                width: 40px; /* Tamanho da imagem */
-                height: 40px;
-                object-fit: cover;
-                border-radius: 50%; /* Deixa a imagem redonda */
-                margin-right: 10px;
-                vertical-align: middle;
-            }
-			#header.wrapper {
-                position: relative; /* Essencial para que os elementos internos absolutos se posicionem corretamente */
-                z-index: 10;
-                /* Você já tem a cor de fundo definida provavelmente em assets/css/main.css, 
-                   mas se quiser forçar a cor (como o teal da sua imagem), use: */
-                /* background-color: #008080; /* Exemplo de teal */
-                
-                /* Importante: Remova qualquer margin ou padding extra que possa estar empurrando o intro */
-                margin-bottom: 0 !important; 
-                padding-bottom: 0 !important;
-            }
-        </style>
+      /* Animação de movimento horizontal suave */
+      @keyframes moverOnda {
+        0% {
+          transform: translate3d(-50px, 0, 0);
+        }
+        100% {
+          transform: translate3d(50px, 0, 0);
+        }
+      }
 
-        </style>
-	</head>
-	<body class="left-sidebar is-preload">
-		<div id="page-wrapper">
+      /* Estilo para a primeira onda (mais lenta e profunda) */
+      #onda-1 {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 250px;
+      }
+      #onda-1 path {
+        fill: rgba(255, 255, 255, 0.1);
+        animation: moverOnda 30s linear infinite alternate;
+      }
 
-	<section id="header" class="wrapper">
-                    
-                <div id="onda-container">
-        
-                        
-                        <svg id="onda-1" viewBox="0 24 150 28" preserveAspectRatio="none">
-                            <defs>
-                                <path id="wave-path-1" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-                            </defs>
-                            <g class="path">
-                                <use xlink:href="#wave-path-1" x="50" y="0" />
-                            </g>
-                        </svg>
-                        
-                        <svg id="onda-2" viewBox="0 24 150 28" preserveAspectRatio="none">
-                            <defs>
-                                <path id="wave-path-2" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-                            </defs>
-                            <g class="path">
-                                <use xlink:href="#wave-path-2" x="50" y="0" />
-                            </g>
-                        </svg>
+      /* Estilo para a segunda onda (mais rápida e superficial) */
+      #onda-2 {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 250px;
+      }
+      #onda-2 path {
+        fill: rgba(255, 255, 255, 0.05);
+        animation: moverOnda 20s linear infinite alternate-reverse;
+      }
+
+      /* Header: acima das ondas, abaixo do navPanel */
+      #header.wrapper {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+      }
+
+      /* Garantir que o painel de navegação mobile fique SEMPRE por cima e clicável */
+      #navPanel {
+        z-index: 99999 !important;
+        pointer-events: auto;
+      }
+      #navPanel .links a {
+        pointer-events: auto;
+        display: block;
+      }
+
+      /* Evitar rolagem horizontal */
+      html,
+      body,
+      #page-wrapper {
+        overflow-x: hidden;
+      }
+
+      /* Ajustes responsivos para esta página */
+      @media screen and (max-width: 736px) {
+        #logo {
+          text-align: center;
+        }
+        #logo h1 a {
+          font-size: 1.6rem;
+        }
+        #typing {
+          font-size: 0.95rem;
+          white-space: normal;
+        }
+
+        #header.wrapper {
+          padding: 2.5rem 1.5rem 1.5rem 1.5rem;
+        }
+
+        #onda-1,
+        #onda-2 {
+          height: 180px;
+        }
+
+        .image.featured canvas {
+          max-width: 100% !important;
+        }
+
+        .wrapper .title {
+          font-size: 1.3rem;
+        }
+
+        #main .box.post p {
+          text-align: justify;
+          font-size: 0.95rem;
+        }
+
+        #footer .col-6 {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body class="left-sidebar is-preload">
+    <div id="page-wrapper">
+      <section id="header" class="wrapper">
+        <div id="onda-container">
+          <svg id="onda-1" viewBox="0 24 150 28" preserveAspectRatio="none">
+            <defs>
+              <path
+                id="wave-path-1"
+                d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+              />
+            </defs>
+            <g class="path">
+              <use xlink:href="#wave-path-1" x="50" y="0" />
+            </g>
+          </svg>
+
+          <svg id="onda-2" viewBox="0 24 150 28" preserveAspectRatio="none">
+            <defs>
+              <path
+                id="wave-path-2"
+                d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+              />
+            </defs>
+            <g class="path">
+              <use xlink:href="#wave-path-2" x="50" y="0" />
+            </g>
+          </svg>
+        </div>
+
+        <div id="logo">
+          <h1><a href="estatisticas.html">O preço de cuidar</a></h1>
+          <p class="subtitulo">
+            <span id="typing"></span>
+          </p>
+        </div>
+
+        <nav id="nav">
+          <ul>
+            <li><a href="index.html">Início</a></li>
+            <li class="active"><a href="estatisticas.html">Estatísticas</a></li>
+            <li><a href="RedeDeApoio.html">Rede de apoio</a></li>
+            <li><a href="right-sidebar.html">Autocuidado</a></li>
+            <li><a href="no-sidebar.html">Histórias Reais</a></li>
+          </ul>
+        </nav>
+      </section>
+
+      <div id="main" class="wrapper style2">
+        <div class="title">Dados reais</div>
+        <div class="container">
+          <div id="content">
+            <article class="box post">
+              <header class="style1">
+                <h2>O trabalho de cuidado não remunerado no Brasil</h2>
+              </header>
+
+              <div class="image featured">
+                <canvas id="graficoHistorico"></canvas>
+              </div>
+
+              <p>
+                Você já deve ter pensado em como a organização do tempo é
+                fundamental para podermos fazer caber, nas 24 horas de um dia,
+                tudo aquilo que é importante fazermos. Estudar, trabalhar,
+                encontrar pessoas de quem gostamos, cuidar. Mas você já parou
+                para pensar quanto tempo mulheres e homens dedicam ao trabalho
+                de cuidar da casa, de crianças, de pessoas doentes, com
+                deficiência ou idosas? Será que há diferenças? É isso que o
+                indicador acima permite conhecer: a média de horas semanais que
+                mulheres e homens de 16 anos ou mais de idade dedicam ao
+                trabalho doméstico e de cuidados não remunerado.
+              </p>
+
+              <p>
+                É essencial considerar também a relação entre gênero e raça na
+                análise dessas desigualdades. Em 2022, mulheres negras dedicaram
+                cerca de 21 horas semanais ao trabalho doméstico e de cuidados
+                não remunerado, enquanto mulheres brancas destinaram, em média,
+                19,5 horas por semana (PNADC, 2022). No fim de um ano, essa
+                diferença representa aproximadamente 72,8 horas a mais, o que
+                equivale a mais de uma semana e meia de trabalho extra,
+                considerando uma jornada legal de 44 horas semanais. Quando
+                comparadas aos homens brancos, as mulheres negras trabalharam
+                cerca de 505 horas adicionais — o que corresponde a quase onze
+                semanas e meia de trabalho a mais (PNADC, 2022).
+              </p>
+
+              <div class="image featured">
+                <canvas id="graficoAtendimentos"></canvas>
+              </div>
+
+              <p>
+                Entre agosto de 2023 e março de 2024, foram realizados 162
+                atendimentos voltados aos profissionais de saúde das Equipes de
+                Saúde da Família do município de Santana dos Garrotes (PB). Os
+                dados revelam resultados significativos:<br /><br />
+
+                A maioria dos participantes relatou sensação de gratidão,
+                bem-estar e alívio de sintomas físicos (como dores) e emocionais
+                (como ansiedade e tensão).<br /><br />
+
+                A Auriculoterapia já era uma prática conhecida entre os
+                profissionais, mas a Terapia Comunitária Integrativa (TCI)
+                passou a ser reconhecida após os atendimentos como eficaz,
+                acessível e de baixo custo, sem necessidade de equipamentos.<br /><br />
+
+                As análises mostram também que os problemas estruturais da
+                Atenção Primária à Saúde (APS) têm impactado diretamente o
+                bem-estar dos trabalhadores. A sobrecarga e o modelo biomédico
+                tradicional contribuem para adoecimento físico e mental, com
+                sintomas que vão desde cansaço e ansiedade até doenças psíquicas
+                e cardiovasculares.<br /><br />
+
+                O projeto demonstrou que, ao incluir práticas integrativas e de
+                autocuidado, é possível melhorar a saúde emocional dos
+                profissionais, fortalecer os vínculos dentro das equipes e, como
+                consequência, ampliar o cuidado aos próprios usuários das UBSs.
+              </p>
+
+              <div class="image featured">
+                <canvas id="graficoSuicidio"></canvas>
+              </div>
+
+              <p>
+                Ao analisar e reunir estudos sobre a presença de ideação
+                suicida, tentativas e casos de suicídio entre cuidadores de
+                pessoas com demência, a pesquisa busca preencher a falta de
+                dados sobre esse tema e, com isso, fornecer informações que
+                possam ajudar na criação de políticas e intervenções voltadas ao
+                bem-estar físico e mental desses cuidadores.<br /><br />
+
+                Entre os 194 artigos, oito compreendendo 1.209 cuidadores
+                informais de pessoas com demência (idade média: 63,9 anos, 74%
+                do sexo feminino) foram incluídos. A prevalência de ideação
+                suicida foi de
+                <strong class="pulso-dados" id="dado-pulso-1">32,32%</strong>
+                (IC 95%: 16,01–48,64%; Eu2 = 98,5%, p &lt; 0,0001). A
+                prevalência de ideação suicida variou entre os estudos de 4,69%
+                a <strong class="pulso-dados" id="dado-pulso-2">77,78%</strong>.
+                Dois estudos relataram a taxa de tentativa de suicídio em
+                cuidadores de pacientes com demência, com prevalência variando
+                de 5,9% a
+                <strong class="pulso-dados" id="dado-pulso-3">16,1%</strong>. Um
+                estudo relatou que um em cada 17 cuidadores de pacientes com
+                demência morreu por suicídio, o equivalente a
+                <strong class="pulso-dados" id="dado-pulso-4">5,88%</strong>.
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <section id="footer" class="wrapper">
+        <div class="title">Entre em Contato</div>
+        <div class="container">
+          <header class="style1">
+            <h2>Alguma sugestão ou dúvida? Fale conosco!</h2>
+            <p>
+              Envie sua mensagem ou utilize nossos canais de comunicação.<br />
+              Estamos aqui para ajudar a fortalecer a Rede de Apoio.
+            </p>
+          </header>
+          <div class="row">
+            <div class="col-6 col-12-medium">
+              <section>
+                <form method="post" action="#">
+                  <div class="row gtr-50">
+                    <div class="col-6 col-12-small">
+                      <input
+                        type="text"
+                        name="name"
+                        id="contact-name"
+                        placeholder="Nome"
+                      />
                     </div>
-                   <div id="logo">
-							<h1><a href="estatisticas.html">O preço de cuidar</a></h1>
-							<p class="subtitulo">
-								<span id="typing"></span>
-							</p>
-						
-						</div>
+                    <div class="col-6 col-12-small">
+                      <input
+                        type="text"
+                        name="email"
+                        id="contact-email"
+                        placeholder="Email"
+                      />
+                    </div>
+                    <div class="col-12">
+                      <textarea
+                        name="message"
+                        id="contact-message"
+                        placeholder="Mensagem"
+                        rows="4"
+                      ></textarea>
+                    </div>
+                    <div class="col-12">
+                      <ul class="actions">
+                        <li>
+                          <input type="submit" class="style1" value="Enviar" />
+                        </li>
+                        <li>
+                          <input type="reset" class="style2" value="Limpar" />
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </form>
+              </section>
+            </div>
+            <div class="col-6 col-12-medium">
+              <section class="feature-list small">
+                <div class="row">
+                  <div class="col-6 col-12-small">
+                    <section>
+                      <h3 class="icon solid fa-home">Endereço</h3>
+                      <p>
+                        INSTITUTO FEDERAL <br />
+                        FLORIANO, PIAUÍ - BRASIL<br />
+                      </p>
+                    </section>
+                    <section>
+                      <h3 class="icon solid fa-envelope">Email</h3>
+                      <p>
+                        <a href="mailto:larasofiasilvasousa72@gmail.com"
+                          >larasofiasilvasousa72@gmail.com</a
+                        ><br />
+                        <a href="mailto:thaillamaacedo@gmail.com"
+                          >thaillamaacedo@gmail.com</a
+                        >
+                      </p>
+                    </section>
+                  </div>
+                  <div class="col-6 col-12-small">
+                    <section>
+                      <h3 class="icon solid fa-phone">Telefone</h3>
+                      <p>
+                        (99) 8491-9625<br />
+                        (89) 9430-0018
+                      </p>
+                    </section>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+          <div id="copyright">
+            <ul>
+              <li>&copy; Quem Cuida.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
 
-					<nav id="nav">
-							<ul>
-								<li><a href="index.html">Início</a></li>
-								<li class="active">
-									<a href="estatisticas.html">Estatísticas</a>
-								</li>
-								<li class="current"><a href="RedeDeApoio.html">Rede de apoio</a></li>
-								<li><a href="right-sidebar.html">Autocuidado</a></li>
-								<li><a href="no-sidebar.html">Histórias Reais</a></li>
-							</ul>
-						</nav>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.dropotron.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
 
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // --- FUNÇÕES AUXILIARES ---
+        function gerarValorAleatorio(min, max) {
+          return parseFloat((Math.random() * (max - min) + min).toFixed(2));
+        }
+        function gerarOffset() {
+          return parseFloat((Math.random() - 0.5).toFixed(2));
+        }
 
-				</section>
+        // GRÁFICO 1
+        const ctx1 = document
+          .getElementById("graficoHistorico")
+          .getContext("2d");
+        const anos = [
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020*",
+          "2021*",
+          "2022",
+        ];
+        let dadosTotal = [
+          24.8, 23.5, 22.8, 22.1, 21.3, 20.8, 21.3, 20.2, 21.5, 22.3, 20.4,
+          20.2, 20.0, 20.0, 19.8, 16.8, 16.5, 17.0, 17.0, 17.0, 17.0, 17.0,
+        ];
+        let dadosMasculino = [
+          11.0, 10.8, 10.7, 10.2, 10.0, 9.8, 10.5, 9.7, 10.0, 10.8, 10.5, 10.5,
+          10.6, 10.6, 10.6, 10.7, 10.7, 10.7, 10.7, 10.7, 10.7, 10.7,
+        ];
+        let dadosFeminino = [
+          30.8, 29.5, 28.3, 27.5, 26.5, 26.5, 27.5, 25.0, 27.8, 28.2, 25.0,
+          25.1, 25.2, 24.8, 24.5, 21.0, 21.0, 21.5, 21.5, 21.5, 21.5, 21.5,
+        ];
 
+        const graficoHistorico = new Chart(ctx1, {
+          type: "line",
+          data: {
+            labels: anos,
+            datasets: [
+              {
+                label: "Total",
+                data: dadosTotal,
+                borderColor: "rgb(0, 100, 180)",
+                backgroundColor: "rgba(0, 100, 180, 0.2)",
+                fill: false,
+                tension: 0.2,
+              },
+              {
+                label: "Masculino",
+                data: dadosMasculino,
+                borderColor: "rgb(255, 140, 0)",
+                backgroundColor: "rgba(255, 140, 0, 0.2)",
+                fill: false,
+                tension: 0.2,
+              },
+              {
+                label: "Feminino",
+                data: dadosFeminino,
+                borderColor: "rgb(128, 0, 128)",
+                backgroundColor: "rgba(128, 0, 128, 0.2)",
+                fill: false,
+                tension: 0.2,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: "top" },
+              title: {
+                display: true,
+                text: "Horas Semanais de Trabalho Doméstico e de Cuidado Não Remunerado (Simulação Dinâmica)",
+                font: { size: 16, weight: "bold" },
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: { display: true, text: "Horas" },
+                max: 35,
+              },
+            },
+            animation: {
+              duration: 2000,
+              easing: "easeInOutQuad",
+            },
+          },
+        });
 
+        function atualizarGraficoHistorico() {
+          for (let i = 0; i < dadosTotal.length; i++) {
+            dadosTotal[i] = Math.max(
+              0,
+              Math.min(35, dadosTotal[i] + gerarOffset() * 0.8)
+            );
+          }
+          for (let i = 0; i < dadosMasculino.length; i++) {
+            dadosMasculino[i] = Math.max(
+              0,
+              Math.min(35, dadosMasculino[i] + gerarOffset() * 0.4)
+            );
+          }
+          for (let i = 0; i < dadosFeminino.length; i++) {
+            dadosFeminino[i] = Math.max(
+              0,
+              Math.min(35, dadosFeminino[i] + gerarOffset() * 0.8)
+            );
+          }
+          graficoHistorico.update();
+        }
+        setInterval(atualizarGraficoHistorico, 3000);
 
+        // GRÁFICO 2
+        const ctx2 = document
+          .getElementById("graficoAtendimentos")
+          .getContext("2d");
+        let dadosAtendimentos = [85.0, 70.0, 74.0, 68.0, 88.0, 85.0];
+        const labelsAtendimentos = [
+          "Gratidão e bem-estar",
+          "Alívio de sintomas físicos",
+          "Alívio de sintomas emocionais",
+          "Reconhecimento da TCI",
+          "Impacto da sobrecarga na APS",
+          "Fortalecimento dos vínculos de equipe",
+        ];
 
-		<div id="main" class="wrapper style2">
-					<div class="title">Dados reais</div>
-					<div class="container">
+        const graficoAtendimentos = new Chart(ctx2, {
+          type: "bar",
+          data: {
+            labels: labelsAtendimentos,
+            datasets: [
+              {
+                data: dadosAtendimentos,
+                backgroundColor: "rgba(255, 165, 0, 0.9)",
+                borderColor: "#000",
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            indexAxis: "y",
+            responsive: true,
+            plugins: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: "Resultados dos Atendimentos - Santana dos Garrotes (Simulação Dinâmica)",
+                font: { size: 16, weight: "bold" },
+              },
+            },
+            scales: {
+              x: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: "Percentual de Profissionais (%)",
+                },
+                max: 100,
+                ticks: {
+                  callback: (value) => value.toFixed(0) + "%",
+                },
+              },
+            },
+            animation: {
+              duration: 1500,
+              easing: "easeInOutQuad",
+            },
+          },
+        });
 
-						<div id="content">
-								<article class="box post">
-									<header class="style1">
-										<h2>O trabalho de cuidado não remunerado no Brasil<br class="mobile-hide" />
-										</h2>
-					
-									</header>
-									<div class="image featured">
-										<canvas id="graficoHistorico"></canvas>
-									</div>
-									
-									<p>Você já deve ter pensado em como a organização do tempo é fundamental para podermos fazer caber, nas 24 horas de um dia, tudo aquilo que é importante fazermos. Estudar, trabalhar, encontrar pessoas de quem gostamos, cuidar. Mas você já parou para pensar quanto tempo mulheres e homens dedicam ao trabalho de cuidar da casa, de crianças, de pessoas doentes, com deficiência ou idosas? Será que há diferenças? É isso que o indicador acima permite conhecer: a média de horas semanais que mulheres e homens de 16 anos ou mais de idade dedicam ao trabalho doméstico e de cuidados não remunerado.</p>
-									<p>É essencial considerar também a relação entre gênero e raça na análise dessas desigualdades. Em 2022, mulheres negras dedicaram cerca de 21 horas semanais ao trabalho doméstico e de cuidados não remunerado, enquanto mulheres brancas destinaram, em média, 19,5 horas por semana (PNADC, 2022).
-                                    No fim de um ano, essa diferença representa aproximadamente 72,8 horas a mais, o que equivale a mais de uma semana e meia de trabalho extra, considerando uma jornada legal de 44 horas semanais.
-                                    Quando comparadas aos homens brancos, as mulheres negras trabalharam cerca de 505 horas adicionais — o que corresponde a quase onze semanas e meia de trabalho a mais (PNADC, 2022).</p>
+        function atualizarGraficoAtendimentos() {
+          dadosAtendimentos[0] = gerarValorAleatorio(82.0, 88.0);
+          dadosAtendimentos[1] = gerarValorAleatorio(67.0, 73.0);
+          dadosAtendimentos[2] = gerarValorAleatorio(71.0, 77.0);
+          dadosAtendimentos[3] = gerarValorAleatorio(65.0, 71.0);
+          dadosAtendimentos[4] = gerarValorAleatorio(85.0, 91.0);
+          dadosAtendimentos[5] = gerarValorAleatorio(82.0, 88.0);
+          graficoAtendimentos.update();
+        }
+        setInterval(atualizarGraficoAtendimentos, 5000);
 
-									
-									<div class="image featured">
-										<canvas id="graficoAtendimentos"></canvas>
-									</div>
-									
-									<p>Entre agosto de 2023 e março de 2024, foram realizados 162 atendimentos voltados aos profissionais de saúde das Equipes de Saúde da Família do município de Santana dos Garrotes (PB).
-									Os dados revelam resultados significativos:<br>
+        // GRÁFICO 3
+        const ctx3 = document
+          .getElementById("graficoSuicidio")
+          .getContext("2d");
+        const dadoPulso1 = document.getElementById("dado-pulso-1");
+        const dadoPulso2 = document.getElementById("dado-pulso-2");
+        const dadoPulso3 = document.getElementById("dado-pulso-3");
+        const dadoPulso4 = document.getElementById("dado-pulso-4");
 
-                                    A maioria dos participantes relatou sensação de gratidão, bem-estar e alívio de sintomas físicos (como dores) e emocionais (como ansiedade e tensão).
+        const dadosIniciaisSuicidio = [32.32, 77.78, 16.1, 5.88];
 
-                                    A Auriculoterapia já era uma prática conhecida entre os profissionais, mas a Terapia Comunitária Integrativa (TCI) passou a ser reconhecida após os atendimentos como eficaz, acessível e de baixo custo, sem necessidade de equipamentos.
+        const graficoSuicidio = new Chart(ctx3, {
+          type: "bar",
+          data: {
+            labels: [
+              "Ideação suicida (média)",
+              "Ideação suicida (variação máxima)",
+              "Tentativas de suicídio",
+              "Óbitos por suicídio (1 em 17)",
+            ],
+            datasets: [
+              {
+                data: dadosIniciaisSuicidio,
+                backgroundColor: [
+                  "rgba(240, 150, 110, 0.8)",
+                  "rgba(210, 70, 90, 0.8)",
+                  "rgba(150, 40, 90, 0.8)",
+                  "rgba(100, 20, 80, 0.8)",
+                ],
+                borderColor: "#000",
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            indexAxis: "y",
+            responsive: true,
+            plugins: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: "Prevalência em Cuidadores de Pessoas com Demência (Simulação Dinâmica)",
+                font: { size: 16, weight: "bold" },
+              },
+            },
+            scales: {
+              x: {
+                beginAtZero: true,
+                title: { display: true, text: "Percentual (%)" },
+                max: 100,
+                ticks: {
+                  callback: (value) => value.toFixed(0) + "%",
+                },
+              },
+            },
+            animation: {
+              duration: 1000,
+              easing: "easeInOutQuad",
+            },
+          },
+        });
 
-                                    As análises mostram também que os problemas estruturais da Atenção Primária à Saúde (APS) têm impactado diretamente o bem-estar dos trabalhadores. A sobrecarga e o modelo biomédico tradicional contribuem para adoecimento físico e mental, com sintomas que vão desde cansaço e ansiedade até doenças psíquicas e cardiovasculares.
+        function atualizarGraficoSuicidio() {
+          const novaMedia = gerarValorAleatorio(28.0, 37.0);
+          const novaMaxima = gerarValorAleatorio(72.0, 82.0);
+          const novaTentativa = gerarValorAleatorio(14.0, 18.0);
+          const novoObito = gerarValorAleatorio(5.0, 7.0);
 
-                                    O projeto demonstrou que, ao incluir práticas integrativas e de autocuidado, é possível melhorar a saúde emocional dos profissionais, fortalecer os vínculos dentro das equipes e, como consequência, ampliar o cuidado aos próprios usuários das UBSs.</p>
+          graficoSuicidio.data.datasets[0].data[0] = novaMedia;
+          graficoSuicidio.data.datasets[0].data[1] = novaMaxima;
+          graficoSuicidio.data.datasets[0].data[2] = novaTentativa;
+          graficoSuicidio.data.datasets[0].data[3] = novoObito;
+          graficoSuicidio.update();
 
-									<div class="image featured">
-										<canvas id="graficoSuicidio"></canvas>
-									</div>
+          dadoPulso1.textContent = novaMedia.toFixed(2) + "%";
+          dadoPulso2.textContent = novaMaxima.toFixed(2) + "%";
+          dadoPulso3.textContent = novaTentativa.toFixed(2) + "%";
+          dadoPulso4.textContent = novoObito.toFixed(2) + "%";
+        }
+        setInterval(atualizarGraficoSuicidio, 4000);
+      });
+    </script>
 
-									
-									<p>Ao analisar e reunir estudos sobre a presença de ideação suicida, tentativas e casos de suicídio entre cuidadores de pessoas com demência, a pesquisa busca preencher a falta de dados sobre esse tema e, com isso, fornecer informações que possam ajudar na criação de políticas e intervenções voltadas ao bem-estar físico e mental desses cuidadores.
-									Entre os 194 artigos, oito compreendendo 1.209 cuidadores informais de pessoas com demência (idade média: 63,9 anos, 74% do sexo feminino) foram incluídos. A prevalência de ideação suicida foi de <strong class="pulso-dados" id="dado-pulso-1">32,32%</strong> (IC 95%: 16,01-48,64%; Eu2 = 98,5%, p < 0,0001). A prevalência de ideação suicida variou entre os estudos de 4,69% a <strong class="pulso-dados" id="dado-pulso-2">77,78%</strong>. Dois estudos relataram a taxa de tentativa de suicídio em cuidadores de pacientes com demência, com prevalência variando de 5,9% a <strong class="pulso-dados" id="dado-pulso-3">16,1%</strong>. Um estudo relatou que um em cada 17 cuidadores de pacientes com demência morreu por suicídio, o equivalente a <strong class="pulso-dados" id="dado-pulso-4">5,88%</strong>.
-									</p>
-								
-								</article>
-							</div>
+    <script>
+      const text = "Os números gritam o que o mundo insiste em calar.";
+      let index = 0;
 
-					</div>
-				</div>
-
-		
-					
-
-					
-			<section id="footer" class="wrapper">
-					<div class="title">Entre em Contato</div>
-					<div class="container">
-						<header class="style1">
-							<h2>Alguma sugestão ou dúvida? Fale conosco!</h2>
-							<p>
-								Envie sua mensagem ou utilize nossos canais de comunicação.<br />
-								Estamos aqui para ajudar a fortalecer a Rede de Apoio.
-							</p>
-						</header>
-						<div class="row">
-							<div class="col-6 col-12-medium">
-
-								<section>
-										<form method="post" action="#">
-											<div class="row gtr-50">
-												<div class="col-6 col-12-small">
-													<input type="text" name="name" id="contact-name" placeholder="Nome" />
-												</div>
-												<div class="col-6 col-12-small">
-													<input type="text" name="email" id="contact-email" placeholder="Email" />
-												</div>
-												<div class="col-12">
-													<textarea name="message" id="contact-message" placeholder="Mensagem" rows="4"></textarea>
-												</div>
-												<div class="col-12">
-													<ul class="actions">
-														<li><input type="submit" class="style1" value="Enviar" /></li>
-														<li><input type="reset" class="style2" value="Limpar" /></li>
-													</ul>
-												</div>
-											</div>
-										</form>
-									</section>
-
-							</div>
-							<div class="col-6 col-12-medium">
-
-								<section class="feature-list small">
-										<div class="row">
-											<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-home">Endereço </h3>
-													<p>
-													
-														INSTITUTO FEDERAL <br />
-														FLORIANO, PIAUÍ - BRASIL<br />
-													</p>
-												</section>
-										
-											
-												<section>
-													<h3 class="icon solid fa-envelope">Email</h3>
-													<p>
-														<a href="mailto:larasofiasilvasousa72@gmail.com">larasofiasilvasousa72@gmail.com</a>
-														<a href="mailto:thaillamaacedo@gmail.com">thaillamaacedo@gmail.com</a>
-													</p>
-												</section>
-											</div>
-											<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-phone">Telefone</h3>
-													<p>
-														(99) 8491-9625<br>
-														(89) 9430-0018													</p>
-												</section>
-											</div>
-										</div>
-									</section>
-
-							</div>
-						</div>
-						<div id="copyright">
-							<ul>
-								<li>&copy; Quem Cuida.</li>
-							</ul>
-						</div>
-					</div>
-				</section>
-
-		</div>
-
-		<script src="assets/js/jquery.min.js"></script>
-		<script src="assets/js/jquery.dropotron.min.js"></script>
-		<script src="assets/js/browser.min.js"></script>
-		<script src="assets/js/breakpoints.min.js"></script>
-		<script src="assets/js/util.js"></script>
-		<script src="assets/js/main.js"></script>
-
-		<script>
-		document.addEventListener('DOMContentLoaded', function() {
-			
-			// --- FUNÇÕES AUXILIARES ---
-			// Gera um número aleatório em um intervalo, com 2 casas decimais.
-			function gerarValorAleatorio(min, max) {
-				return parseFloat((Math.random() * (max - min) + min).toFixed(2));
-			}
-			// Gera um pequeno offset para simular o movimento suave das linhas.
-			function gerarOffset() {
-				return parseFloat((Math.random() - 0.5).toFixed(2)); 
-			}
-
-
-			// ======================================================================
-			// --- GRÁFICO 1: HORAS DE CUIDADO (LINHAS) ---
-			// ======================================================================
-			const ctx1 = document.getElementById('graficoHistorico').getContext('2d');
-			
-			// Dados base (valores aproximados do gráfico de imagem)
-			const anos = [
-				'2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', 
-				'2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020*', '2021*', '2022'
-			];
-			
-			let dadosTotal = [
-				24.8, 23.5, 22.8, 22.1, 21.3, 20.8, 21.3, 20.2, 21.5, 22.3, 
-				20.4, 20.2, 20.0, 20.0, 19.8, 16.8, 16.5, 17.0, 17.0, 17.0, 17.0, 17.0
-			];
-			let dadosMasculino = [
-				11.0, 10.8, 10.7, 10.2, 10.0, 9.8, 10.5, 9.7, 10.0, 10.8, 
-				10.5, 10.5, 10.6, 10.6, 10.6, 10.7, 10.7, 10.7, 10.7, 10.7, 10.7, 10.7
-			];
-			let dadosFeminino = [
-				30.8, 29.5, 28.3, 27.5, 26.5, 26.5, 27.5, 25.0, 27.8, 28.2, 
-				25.0, 25.1, 25.2, 24.8, 24.5, 21.0, 21.0, 21.5, 21.5, 21.5, 21.5, 21.5
-			];
-
-			const graficoHistorico = new Chart(ctx1, {
-				type: 'line',
-				data: {
-					labels: anos,
-					datasets: [
-						{
-							label: 'Total',
-							data: dadosTotal,
-							borderColor: 'rgb(0, 100, 180)', 
-							backgroundColor: 'rgba(0, 100, 180, 0.2)',
-							fill: false,
-							tension: 0.2,
-						},
-						{
-							label: 'Masculino',
-							data: dadosMasculino,
-							borderColor: 'rgb(255, 140, 0)', 
-							backgroundColor: 'rgba(255, 140, 0, 0.2)',
-							fill: false,
-							tension: 0.2,
-						},
-						{
-							label: 'Feminino',
-							data: dadosFeminino,
-							borderColor: 'rgb(128, 0, 128)', 
-							backgroundColor: 'rgba(128, 0, 128, 0.2)',
-							fill: false,
-							tension: 0.2,
-						}
-					]
-				},
-				options: {
-					responsive: true,
-					plugins: {
-						legend: { position: 'top' },
-						title: {
-							display: true,
-							text: 'Horas Semanais de Trabalho Doméstico e de Cuidado Não Remunerado (Simulação Dinâmica)',
-							font: { size: 16, weight: 'bold' }
-						}
-					},
-					scales: {
-						y: {
-							beginAtZero: true,
-							title: { display: true, text: 'Horas' },
-							max: 35
-						}
-					},
-					animation: {
-						duration: 2000, 
-						easing: 'easeInOutQuad'
-					}
-				}
-			});
-
-			function atualizarGraficoHistorico() {
-				// Faz a variação (offset) para cada ponto de cada linha
-				for (let i = 0; i < dadosTotal.length; i++) {
-					dadosTotal[i] = Math.max(0, Math.min(35, dadosTotal[i] + gerarOffset() * 0.8));
-				}
-				for (let i = 0; i < dadosMasculino.length; i++) {
-					 dadosMasculino[i] = Math.max(0, Math.min(35, dadosMasculino[i] + gerarOffset() * 0.4)); 
-				}
-				for (let i = 0; i < dadosFeminino.length; i++) {
-					 dadosFeminino[i] = Math.max(0, Math.min(35, dadosFeminino[i] + gerarOffset() * 0.8));
-				}
-
-				graficoHistorico.data.datasets[0].data = dadosTotal;
-				graficoHistorico.data.datasets[1].data = dadosMasculino;
-				graficoHistorico.data.datasets[2].data = dadosFeminino;
-				graficoHistorico.update();
-			}
-
-			// Inicia a animação automática a cada 3 segundos
-			setInterval(atualizarGraficoHistorico, 3000); 
-
-
-			// ======================================================================
-			// --- GRÁFICO 2: ATENDIMENTOS (BARRAS AMARELAS) ---
-			// ======================================================================
-			const ctx2 = document.getElementById('graficoAtendimentos').getContext('2d');
-			
-			let dadosAtendimentos = [85.0, 70.0, 74.0, 68.0, 88.0, 85.0]; // Valores base
-			
-			const labelsAtendimentos = [
-				'Gratidão e bem-estar', 
-				'Alívio de sintomas físicos', 
-				'Alívio de sintomas emocionais', 
-				'Reconhecimento da TCI', 
-				'Impacto da sobrecarga na APS', 
-				'Fortalecimento dos vínculos de equipe'
-			];
-
-			const graficoAtendimentos = new Chart(ctx2, {
-				type: 'bar',
-				data: {
-					labels: labelsAtendimentos,
-					datasets: [{
-						data: dadosAtendimentos,
-						backgroundColor: 'rgba(255, 165, 0, 0.9)', // Laranja/Amarelo
-						borderColor: '#000',
-						borderWidth: 1,
-					}]
-				},
-				options: {
-					indexAxis: 'y', // GRÁFICO HORIZONTAL
-					responsive: true,
-					plugins: {
-						legend: { display: false },
-						title: {
-							display: true,
-							text: 'Resultados dos Atendimentos - Santana dos Garrotes (Simulação Dinâmica)',
-							font: { size: 16, weight: 'bold' }
-						}
-					},
-					scales: {
-						x: {
-							beginAtZero: true,
-							title: { display: true, text: 'Percentual de Profissionais (%)' },
-							max: 100,
-							ticks: {
-								callback: function(value) {
-									return value.toFixed(0) + '%';
-								}
-							}
-						}
-					},
-					animation: {
-						duration: 1500, 
-						easing: 'easeInOutQuad'
-					}
-				}
-			});
-
-			function atualizarGraficoAtendimentos() {
-				// Gera novos valores (variações suaves para cada categoria)
-				dadosAtendimentos[0] = gerarValorAleatorio(82.0, 88.0); // Gratidão (Base 85)
-				dadosAtendimentos[1] = gerarValorAleatorio(67.0, 73.0); // Alívio físico (Base 70)
-				dadosAtendimentos[2] = gerarValorAleatorio(71.0, 77.0); // Alívio emocional (Base 74)
-				dadosAtendimentos[3] = gerarValorAleatorio(65.0, 71.0); // Reconhecimento TCI (Base 68)
-				dadosAtendimentos[4] = gerarValorAleatorio(85.0, 91.0); // Sobrecarga na APS (Base 88)
-				dadosAtendimentos[5] = gerarValorAleatorio(82.0, 88.0); // Fortalecimento de Vínculos (Base 85)
-
-				graficoAtendimentos.data.datasets[0].data = dadosAtendimentos;
-				graficoAtendimentos.update();
-			}
-
-			// Inicia a animação automática a cada 5 segundos
-			setInterval(atualizarGraficoAtendimentos, 5000); 
-
-
-			// ======================================================================
-			// --- GRÁFICO 3: SUICÍDIO (BARRAS) ---
-			// ======================================================================
-			const ctx3 = document.getElementById('graficoSuicidio').getContext('2d');
-			
-			// Elementos de texto para sincronização (pulso)
-			const dadoPulso1 = document.getElementById('dado-pulso-1');
-			const dadoPulso2 = document.getElementById('dado-pulso-2');
-			const dadoPulso3 = document.getElementById('dado-pulso-3');
-			const dadoPulso4 = document.getElementById('dado-pulso-4');
-
-			const dadosIniciaisSuicidio = [32.32, 77.78, 16.10, 5.88];
-
-			const graficoSuicidio = new Chart(ctx3, {
-				type: 'bar',
-				data: {
-					labels: [
-						'Ideação suicida (média)', 
-						'Ideação suicida (variação máxima)', 
-						'Tentativas de suicídio', 
-						'Óbitos por suicídio (1 em 17)'
-					],
-					datasets: [{
-						data: dadosIniciaisSuicidio,
-						backgroundColor: [
-							'rgba(240, 150, 110, 0.8)',
-							'rgba(210, 70, 90, 0.8)',
-							'rgba(150, 40, 90, 0.8)',
-							'rgba(100, 20, 80, 0.8)'
-						],
-						borderColor: '#000',
-						borderWidth: 1,
-					}]
-				},
-				options: {
-					indexAxis: 'y', // GRÁFICO HORIZONTAL
-					responsive: true,
-					plugins: {
-						legend: { display: false },
-						title: {
-							display: true,
-							text: 'Prevalência em Cuidadores de Pessoas com Demência (Simulação Dinâmica)',
-							font: { size: 16, weight: 'bold' }
-						}
-					},
-					scales: {
-						x: {
-							beginAtZero: true,
-							title: { display: true, text: 'Percentual (%)' },
-							max: 100,
-							ticks: {
-								callback: function(value) {
-									return value.toFixed(0) + '%';
-								}
-							}
-						}
-					},
-					animation: {
-						duration: 1000, 
-						easing: 'easeInOutQuad'
-					}
-				}
-			});
-
-			function atualizarGraficoSuicidio() {
-				// Variação da Ideação Média (entre 28% e 37%) - Índice 0
-				const novaMedia = gerarValorAleatorio(28.00, 37.00); 
-
-				// Variação da Ideação Máxima (entre 72% e 82%) - Índice 1
-				const novaMaxima = gerarValorAleatorio(72.00, 82.00); 
-				
-				// Variação das Tentativas de Suicídio (entre 14% e 18%) - Índice 2
-				const novaTentativa = gerarValorAleatorio(14.00, 18.00); 
-
-				// Variação dos Óbitos por Suicídio (entre 5% e 7%) - Índice 3
-				const novoObito = gerarValorAleatorio(5.00, 7.00); 
-
-
-				// 1. Atualiza o gráfico (TODOS OS 4 ÍNDICES)
-				graficoSuicidio.data.datasets[0].data[0] = novaMedia;
-				graficoSuicidio.data.datasets[0].data[1] = novaMaxima;
-				graficoSuicidio.data.datasets[0].data[2] = novaTentativa;
-				graficoSuicidio.data.datasets[0].data[3] = novoObito;
-				graficoSuicidio.update();
-				
-				// 2. Atualiza os números no texto
-				dadoPulso1.textContent = novaMedia.toFixed(2) + '%';
-				dadoPulso2.textContent = novaMaxima.toFixed(2) + '%';
-				dadoPulso3.textContent = novaTentativa.toFixed(2) + '%';
-				dadoPulso4.textContent = novoObito.toFixed(2) + '%';
-			}
-
-			// Inicia a animação automática a cada 4 segundos
-			setInterval(atualizarGraficoSuicidio, 4000);
-
-		});
-		</script>
-		<script>
-			const text = "Os numeros gritam o que o mundo insiste em calar.";
-			let index = 0;
-
-			function typeWriter() {
-				const el = document.getElementById("typing");
-				if (!el) return;
-				if (index < text.length) {
-					el.innerHTML += text.charAt(index);
-					index++;
-					setTimeout(typeWriter, 70);
-				}
-			}
-			window.addEventListener("load", typeWriter);
-		</script>
-	</body>
+      function typeWriter() {
+        const el = document.getElementById("typing");
+        if (!el) return;
+        if (index < text.length) {
+          el.innerHTML += text.charAt(index);
+          index++;
+          setTimeout(typeWriter, 70);
+        }
+      }
+      window.addEventListener("load", typeWriter);
+    </script>
+  </body>
 </html>

@@ -1,348 +1,498 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <!--
 	Escape Velocity by HTML5 UP
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-	<head>
-		<title>Página inicial</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
+  <head>
+    <title>Página inicial</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <link rel="stylesheet" href="assets/css/main.css" />
 
-			<style>
-            /* Efeito de digitação */
-            #typing {
-            border-right: 2px solid rgba(255,255,255,0.9);
-            padding-right: 6px;
-            white-space: nowrap;
-            display:inline-block;
-            animation: blink 0.7s steps(1) infinite;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            }
+    <style>
+      /* Efeito de digitação */
+      #typing {
+        border-right: 2px solid rgba(255, 255, 255, 0.9);
+        padding-right: 6px;
+        white-space: nowrap;
+        display: inline-block;
+        animation: blink 0.7s steps(1) infinite;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+      }
 
-            @keyframes blink {
-            50% { border-color: transparent; }
-            }
+      @keyframes blink {
+        50% {
+          border-color: transparent;
+        }
+      }
 
-            /* --- NOVO CSS PARA A ONDA DE CUIDADO --- */
+      /* --- ONDA DE CUIDADO --- */
 
-            /* Contêiner para posicionar as ondas */
-           #onda-container {
-                position: absolute; 
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                height: 100%; /* Isso garante que ele ocupe 100% do #header */
-                overflow: hidden;
-                z-index: 1; /* A onda deve ficar no fundo, abaixo do texto (z-index do texto e nav deve ser maior) */
-                pointer-events: none;
-            }
+      /* Contêiner para posicionar as ondas */
+      #onda-container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%; /* ocupa 100% do #header */
+        overflow: hidden;
+        z-index: 0; /* fica no fundo */
+        pointer-events: none;
+      }
 
-            /* Animação de movimento horizontal suave */
-            @keyframes moverOnda {
-                0% { transform: translate3d(-50px, 0, 0); } /* Começa ligeiramente para a esquerda */
-                100% { transform: translate3d(50px, 0, 0); } /* Termina ligeiramente para a direita */
-            }
+      /* Animação de movimento horizontal suave */
+      @keyframes moverOnda {
+        0% {
+          transform: translate3d(-50px, 0, 0);
+        }
+        100% {
+          transform: translate3d(50px, 0, 0);
+        }
+      }
 
-            /* Estilo para a primeira onda (mais lenta e profunda) */
-            #onda-1 {
-                position: absolute;
-                bottom: 0;
-                width: 100%;
-                height: 250px; /* Altura da onda no container */
-            }
-            #onda-1 path {
-                fill: rgba(255, 255, 255, 0.1); /* Cor branca suave e transparente */
-                animation: moverOnda 30s linear infinite alternate; /* 30s = muito lento */
-            }
+      /* Estilo para a primeira onda (mais lenta e profunda) */
+      #onda-1 {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 250px;
+      }
+      #onda-1 path {
+        fill: rgba(255, 255, 255, 0.1);
+        animation: moverOnda 30s linear infinite alternate;
+      }
 
-            /* Estilo para a segunda onda (mais rápida e superficial) */
-            #onda-2 {
-                position: absolute;
-                bottom: 0;
-                width: 100%;
-                height: 250px;
-            }
-            #onda-2 path {
-                fill: rgba(255, 255, 255, 0.05); /* Mais transparente ainda */
-                animation: moverOnda 20s linear infinite alternate-reverse; /* 20s = mais rápida e no sentido inverso */
-            }
-            
-            /* Ajuste para o #header para que o z-index funcione */
-            #header.wrapper {
-                position: relative;
-                z-index: 10;
-            }
-            
-            /* Ajuste visual para as imagens dos filmes */
-            .feature-list h3 img.h3-img {
-                width: 40px; /* Tamanho da imagem */
-                height: 40px;
-                object-fit: cover;
-                border-radius: 50%; /* Deixa a imagem redonda */
-                margin-right: 10px;
-                vertical-align: middle;
-            }
-			#header.wrapper {
-                position: relative; /* Essencial para que os elementos internos absolutos se posicionem corretamente */
-                z-index: 10;
-                /* Você já tem a cor de fundo definida provavelmente em assets/css/main.css, 
-                   mas se quiser forçar a cor (como o teal da sua imagem), use: */
-                /* background-color: #008080; /* Exemplo de teal */
-                
-                /* Importante: Remova qualquer margin ou padding extra que possa estar empurrando o intro */
-                margin-bottom: 0 !important; 
-                padding-bottom: 0 !important;
-            }
-        </style>
+      /* Estilo para a segunda onda (mais rápida e superficial) */
+      #onda-2 {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 250px;
+      }
+      #onda-2 path {
+        fill: rgba(255, 255, 255, 0.05);
+        animation: moverOnda 20s linear infinite alternate-reverse;
+      }
 
+      /* Header: acima das ondas, abaixo do menu lateral */
+      #header.wrapper {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+      }
 
+      /* GARANTIR QUE O NAV MOBILE ESTEJA SEMPRE POR CIMA E CLICÁVEL */
+      #navPanel {
+        z-index: 99999 !important;
+        pointer-events: auto;
+      }
+      #navPanel .links a {
+        pointer-events: auto;
+        display: block;
+      }
 
-	</head>
-	<body class="homepage is-preload">
-		
-		<div id="page-wrapper">
+      /* Ajuste visual para as imagens dos filmes */
+      .feature-list h3 img.h3-img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
 
-    
+      /* Evitar rolagem horizontal no mobile */
+      html,
+      body,
+      #page-wrapper {
+        overflow-x: hidden;
+      }
 
-			<!-- Header -->
-				<section id="header" class="wrapper">
-                    
-                <div id="onda-container">
-        
-                        
-                        <svg id="onda-1" viewBox="0 24 150 28" preserveAspectRatio="none">
-                            <defs>
-                                <path id="wave-path-1" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-                            </defs>
-                            <g class="path">
-                                <use xlink:href="#wave-path-1" x="50" y="0" />
-                            </g>
-                        </svg>
-                        
-                        <svg id="onda-2" viewBox="0 24 150 28" preserveAspectRatio="none">
-                            <defs>
-                                <path id="wave-path-2" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-                            </defs>
-                            <g class="path">
-                                <use xlink:href="#wave-path-2" x="50" y="0" />
-                            </g>
-                        </svg>
+      /* ---------- AJUSTES RESPONSIVOS PARA CELULAR ---------- */
+      @media screen and (max-width: 736px) {
+        /* Logo centralizado e menor */
+        #logo {
+          text-align: center;
+        }
+        #logo h1 a {
+          font-size: 1.6rem;
+        }
+
+        /* Texto digitando menor e podendo quebrar linha */
+        #typing {
+          font-size: 0.95rem;
+          white-space: normal;
+          display: inline-block;
+        }
+
+        /* Diminuir altura visual do header */
+        #header.wrapper {
+          padding: 2.5rem 1.5rem 1.5rem 1.5rem;
+        }
+
+        /* Ondas um pouco mais baixas para não “apertar” o conteúdo */
+        #onda-1,
+        #onda-2 {
+          height: 180px;
+        }
+
+        /* Imagem de destaque sempre 100% */
+        .image.featured img {
+          width: 100%;
+          height: auto;
+        }
+
+        /* Título das seções mais amigável */
+        .wrapper .title {
+          font-size: 1.3rem;
+        }
+
+        /* Parágrafos de introdução com melhor leitura */
+        #intro .style1,
+        #intro .style2,
+        #intro .style3 {
+          text-align: justify;
+          font-size: 0.95rem;
+        }
+
+        /* Filmes em uma coluna (a grid do tema já ajuda, mas reforçamos) */
+        .feature-list .row > div {
+          width: 100%;
+        }
+
+        .feature-list h3 img.h3-img {
+          width: 32px;
+          height: 32px;
+        }
+
+        /* Formulário no rodapé ocupando 100% quando a tela for muito estreita */
+        #footer .col-6 {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body class="homepage is-preload">
+    <div id="page-wrapper">
+      <!-- Header -->
+      <section id="header" class="wrapper">
+        <div id="onda-container">
+          <svg id="onda-1" viewBox="0 24 150 28" preserveAspectRatio="none">
+            <defs>
+              <path
+                id="wave-path-1"
+                d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+              />
+            </defs>
+            <g class="path">
+              <use xlink:href="#wave-path-1" x="50" y="0" />
+            </g>
+          </svg>
+
+          <svg id="onda-2" viewBox="0 24 150 28" preserveAspectRatio="none">
+            <defs>
+              <path
+                id="wave-path-2"
+                d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+              />
+            </defs>
+            <g class="path">
+              <use xlink:href="#wave-path-2" x="50" y="0" />
+            </g>
+          </svg>
+        </div>
+
+        <div id="logo">
+          <h1><a href="index.html">Quem cuida de quem cuida?</a></h1>
+          <p class="subtitulo">
+            <span id="typing"></span>
+          </p>
+        </div>
+
+        <nav id="nav">
+          <ul>
+            <li class="active"><a href="index.html">Início</a></li>
+            <li><a href="estatisticas.html">Estatísticas</a></li>
+            <li><a href="RedeDeApoio.html">Rede de apoio</a></li>
+            <li><a href="right-sidebar.html">Autocuidado</a></li>
+            <li><a href="no-sidebar.html">Histórias Reais</a></li>
+          </ul>
+        </nav>
+      </section>
+
+      <!-- Intro -->
+      <section id="intro" class="wrapper style1">
+        <div class="title">Introdução</div>
+        <div class="container">
+          <p class="style1">Enquanto eles cuidam de todos, quem cuida deles?</p>
+          <p class="style2">
+            Cuidar é o ato que mantém a sociedade em pé. Enfermeiros,
+            professores, psicólogos, mães solo, cuidadores de idosos e tantas
+            outras pessoas dedicam sua vida ao bem-estar dos outros. Mas por
+            trás da imagem de dedicação, existe a sobrecarga, o adoecimento e a
+            invisibilidade.
+            <br class="mobile-hide" />
+          </p>
+          <p class="style3">
+            "Se todos os cuidadores parassem por 1 dia, o que aconteceria?"<br />
+            → hospitais fecham, crianças sem aula, idosos desamparados, famílias
+            em colapso.
+          </p>
+          <ul class="actions">
+            <li></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Main -->
+      <section id="main" class="wrapper style2">
+        <div class="title">Mais sobre</div>
+        <div class="container">
+          <!-- Image -->
+          <div class="image featured">
+            <img src="images/foto_intro.jpg" alt="" />
+          </div>
+
+          <!-- Features -->
+          <section id="features">
+            <header class="style1">
+              <h2>Filmes que abordam a temática</h2>
+            </header>
+
+            <div class="feature-list">
+              <div class="row">
+                <div class="col-6 col-12-medium">
+                  <section>
+                    <h3>
+                      <img class="h3-img" src="images/amor.jpg" alt="" /> Amor
+                      (2012, Michael Haneke)
+                    </h3>
+                    <p>
+                      Um casal de idosos enfrenta as consequências do AVC da
+                      esposa. O marido se torna cuidador em tempo integral,
+                      revelando os desafios físicos e emocionais dessa nova
+                      realidade.
+                    </p>
+                  </section>
+                </div>
+                <div class="col-6 col-12-medium">
+                  <section>
+                    <h3>
+                      <img
+                        class="h3-img"
+                        src="images/still-crazy.jpg"
+                        alt=""
+                      />Ainda Muito Loucos (The Savages, 2007, Tamara Jenkins)
+                    </h3>
+                    <p>
+                      Dois irmãos adultos precisam assumir os cuidados do pai
+                      idoso e doente. O filme mostra como o ato de cuidar pode
+                      transformar relações familiares e revelar sentimentos
+                      profundos.
+                    </p>
+                  </section>
+                </div>
+                <div class="col-6 col-12-medium">
+                  <section>
+                    <h3>
+                      <img
+                        class="h3-img"
+                        src="images/escanfandro.jpg"
+                        alt=""
+                      />O Escafandro e a Borboleta (2007, Julian Schnabel)
+                    </h3>
+                    <p>
+                      Baseado em fatos reais, o filme narra a história de
+                      Jean-Dominique Bauby, que sofre um derrame cerebral e fica
+                      com o corpo paralisado, mas mantém a mente ativa. A obra
+                      destaca os desafios e a força necessários para cuidar de
+                      alguém em estado tão vulnerável.
+                    </p>
+                  </section>
+                </div>
+                <div class="col-6 col-12-medium">
+                  <section>
+                    <h3>
+                      <img
+                        class="h3-img"
+                        src="images/longe-dela.jpeg"
+                        alt=""
+                      />Longe Dela (Away from Her, 2006, Sarah Polley)
+                    </h3>
+                    <p>
+                      Um homem vê sua esposa, diagnosticada com Alzheimer,
+                      perder e se afastar dele em uma clínica. Um retrato
+                      sensível das complexidades do amor e do cuidado diante da
+                      doença.
+                    </p>
+                  </section>
+                </div>
+                <div class="col-6 col-12-medium">
+                  <section>
+                    <h3>
+                      <img class="h3-img" src="images/meu pai.png" alt="" />Meu
+                      Pai (The Father, 2020, Florian Zeller)
+                    </h3>
+                    <p>
+                      Com pontuação premiada de Anthony Hopkins, o filme aborda
+                      a perspectiva de um idoso com demência e os desafios
+                      enfrentados por seus cuidadores.
+                    </p>
+                  </section>
+                </div>
+                <div class="col-6 col-12-medium">
+                  <section>
+                    <h3>
+                      <img
+                        class="h3-img"
+                        src="images/diario.webp"
+                        alt=""
+                      />Diário de uma Paixão (The Notebook, 2004)
+                    </h3>
+                    <p>
+                      Além da famosa história de amor, o filme revela a
+                      dedicação de um marido visitando sua esposa todos os dias,
+                      mesmo após ela ser diagnosticada com Alzheimer, mostrando
+                      o poder do cuidado e da memória afetiva.
+                    </p>
+                  </section>
+                </div>
+              </div>
+            </div>
+
+            <ul class="actions special"></ul>
+          </section>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <section id="footer" class="wrapper">
+        <div class="title">Entre em Contato</div>
+        <div class="container">
+          <header class="style1">
+            <h2>Alguma sugestão ou dúvida? Fale conosco!</h2>
+            <p>
+              Envie sua mensagem ou utilize nossos canais de comunicação.<br />
+              Estamos aqui para ajudar a fortalecer a Rede de Apoio.
+            </p>
+          </header>
+          <div class="row">
+            <div class="col-6 col-12-medium">
+              <section>
+                <form method="post" action="#">
+                  <div class="row gtr-50">
+                    <div class="col-6 col-12-small">
+                      <input
+                        type="text"
+                        name="name"
+                        id="contact-name"
+                        placeholder="Nome"
+                      />
                     </div>
-                   <div id="logo">
-							<h1><a href="index.html">Quem cuida de quem cuida?</a></h1>
-							<p class="subtitulo">
-								<span id="typing"></span>
-							</p>
-						
-						</div>
+                    <div class="col-6 col-12-small">
+                      <input
+                        type="text"
+                        name="email"
+                        id="contact-email"
+                        placeholder="Email"
+                      />
+                    </div>
+                    <div class="col-12">
+                      <textarea
+                        name="message"
+                        id="contact-message"
+                        placeholder="Mensagem"
+                        rows="4"
+                      ></textarea>
+                    </div>
+                    <div class="col-12">
+                      <ul class="actions">
+                        <li>
+                          <input type="submit" class="style1" value="Enviar" />
+                        </li>
+                        <li>
+                          <input type="reset" class="style2" value="Limpar" />
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </form>
+              </section>
+            </div>
+            <div class="col-6 col-12-medium">
+              <section class="feature-list small">
+                <div class="row">
+                  <div class="col-6 col-12-small">
+                    <section>
+                      <h3 class="icon solid fa-home">Endereço</h3>
+                      <p>
+                        INSTITUTO FEDERAL <br />
+                        FLORIANO, PIAUÍ - BRASIL<br />
+                      </p>
+                    </section>
+                    <section>
+                      <h3 class="icon solid fa-envelope">Email</h3>
+                      <p>
+                        <a href="mailto:larasofiasilvasousa72@gmail.com"
+                          >larasofiasilvasousa72@gmail.com</a
+                        >
+                        <a href="mailto:thaillamaacedo@gmail.com"
+                          >thaillamaacedo@gmail.com</a
+                        >
+                      </p>
+                    </section>
+                  </div>
+                  <div class="col-6 col-12-small">
+                    <section>
+                      <h3 class="icon solid fa-phone">Telefone</h3>
+                      <p>
+                        (99) 8491-9625<br />
+                        (89) 9430-0018
+                      </p>
+                    </section>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+          <div id="copyright">
+            <ul>
+              <li>&copy; Quem Cuida.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
 
-					<nav id="nav">
-							<ul>
-								<li class="active"><a href="index.html">Início</a></li>
-								<li>
-									<a href="estatisticas.html">Estatísticas</a>
-								</li>
-								<li><a href="RedeDeApoio.html">Rede de apoio</a></li>
-								<li><a href="right-sidebar.html">Autocuidado</a></li>
-								<li><a href="no-sidebar.html">Histórias Reais</a></li>
-							</ul>
-						</nav>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.dropotron.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
 
+    <!-- SCRIPT DO EFEITO DE DIGITAÇÃO -->
+    <script>
+      const text = "Quem cuida de todos, também precisa ser cuidado.";
+      let index = 0;
 
-				</section>
-
-
-
-			<!-- Intro -->
-				<section id="intro" class="wrapper style1">
-					<div class="title">Introdução</div>
-					<div class="container">
-						<p class="style1">Enquanto eles cuidam de todos, quem cuida deles?</p>
-						<p class="style2">
-							Cuidar é o ato que mantém a sociedade em pé. Enfermeiros, professores, psicólogos, mães solo, cuidadores de idosos e tantas outras pessoas dedicam sua vida ao bem-estar dos outros. Mas por trás da imagem de dedicação, existe a sobrecarga, o adoecimento e a invisibilidade.
-                           <br class="mobile-hide" />
-						</p>
-						<p class="style3">"Se todos os cuidadores parassem por 1 dia, o que aconteceria?"<br>
-                        → hospitais fecham, crianças sem aula, idosos desamparados, famílias em colapso.</p>
-						<ul class="actions">
-							<li></li>
-						</ul>
-					</div>
-				</section>
-
-			<!-- Main -->
-				<section id="main" class="wrapper style2">
-					<div class="title">Mais sobre</div>
-					<div class="container">
-
-						<!-- Image -->
-						<div class ="image featured">
-						<img src="images/foto_intro.jpg" alt="" />
-						</div>
-
-						<!-- Features -->
-							<section id="features">
-								<header class="style1">
-									<h2>Filmes que abordam a temática</h2>
-								</header>
-
-								<div class="feature-list">
-									<div class="row">
-										<div class="col-6 col-12-medium">
-											<section>
-												<h3><img class="h3-img" src="images/amor.jpg" alt=""> Amor (2012, Michael Haneke)</h3>
-												<p>Um casal de idosos enfrenta as consequências do AVC da esposa. O marido se torna cuidador em tempo integral, revelando os desafios físicos e emocionais dessa nova realidade.</p>
-											</section>
-										</div>
-										<div class="col-6 col-12-medium">
-											<section>
-												<h3><img class="h3-img" src="images/still-crazy.jpg" alt="">Ainda Muito Loucos (The Savages, 2007, Tamara Jenkins)</h3>
-												<p>Dois irmãos adultos precisam assumir os cuidados do pai idoso e doente. O filme mostra como o ato de cuidar pode transformar relações familiares e revelar sentimentos profundos.</p>
-											</section>
-										</div>
-										<div class="col-6 col-12-medium">
-											<section>
-												<h3><img class="h3-img" src="images/escanfandro.jpg" alt="">O Escafandro e a Borboleta (2007, Julian Schnabel)</h3>
-												<p>Baseado em fatos reais, o filme narra a história de Jean-Dominique Bauby, que sofre um derrame cerebral e fica com o corpo paralisado, mas mantém a mente ativa. A obra destaca os desafios e a força necessários para cuidar de alguém em estado tão vulnerável.</p>
-											</section>
-										</div>
-										<div class="col-6 col-12-medium">
-											<section>
-												<h3><img class="h3-img" src="images/longe-dela.jpeg" alt="">Longe Dela (Away from Her, 2006, Sarah Polley)</h3>
-												<p>Um homem vê sua esposa, diagnosticada com Alzheimer, perder e se afastar dele em uma clínica. Um retrato sensível das complexidades do amor e do cuidado diante da doença.</p>
-											</section>
-										</div>
-										<div class="col-6 col-12-medium">
-											<section>
-												<h3><img class="h3-img" src="images/meu pai.png" alt="">Meu Pai (The Father, 2020, Florian Zeller)</h3>
-												<p>Com pontuação premiada de Anthony Hopkins, o filme aborda a perspectiva de um idoso com demência e os desafios enfrentados por seus cuidadores.</p>
-											</section>
-										</div>
-										<div class="col-6 col-12-medium">
-											<section>
-												<h3><img class="h3-img" src="images/diario.webp" alt="">Diário de uma Paixão (The Notebook, 2004)</h3>
-												<p>Além da famosa história de amor, o filme revela a dedicação de um marido visitando sua esposa todos os dias, mesmo após ela ser diagnosticada com Alzheimer, mostrando o poder do cuidado e da memória afetiva.</p>
-											</section>
-										</div>
-									</div>
-								</div>
-
-								<ul class="actions special"></ul>
-							</section>
-
-					</div>
-				</section>
-
-			<!-- Footer -->
-					
-			<section id="footer" class="wrapper">
-					<div class="title">Entre em Contato</div>
-					<div class="container">
-						<header class="style1">
-							<h2>Alguma sugestão ou dúvida? Fale conosco!</h2>
-							<p>
-								Envie sua mensagem ou utilize nossos canais de comunicação.<br />
-								Estamos aqui para ajudar a fortalecer a Rede de Apoio.
-							</p>
-						</header>
-						<div class="row">
-							<div class="col-6 col-12-medium">
-
-								<section>
-										<form method="post" action="#">
-											<div class="row gtr-50">
-												<div class="col-6 col-12-small">
-													<input type="text" name="name" id="contact-name" placeholder="Nome" />
-												</div>
-												<div class="col-6 col-12-small">
-													<input type="text" name="email" id="contact-email" placeholder="Email" />
-												</div>
-												<div class="col-12">
-													<textarea name="message" id="contact-message" placeholder="Mensagem" rows="4"></textarea>
-												</div>
-												<div class="col-12">
-													<ul class="actions">
-														<li><input type="submit" class="style1" value="Enviar" /></li>
-														<li><input type="reset" class="style2" value="Limpar" /></li>
-													</ul>
-												</div>
-											</div>
-										</form>
-									</section>
-
-							</div>
-							<div class="col-6 col-12-medium">
-
-								<section class="feature-list small">
-										<div class="row">
-											<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-home">Endereço </h3>
-													<p>
-													
-														INSTITUTO FEDERAL <br />
-														FLORIANO, PIAUÍ - BRASIL<br />
-													</p>
-												</section>
-										
-											
-												<section>
-													<h3 class="icon solid fa-envelope">Email</h3>
-													<p>
-														<a href="mailto:larasofiasilvasousa72@gmail.com">larasofiasilvasousa72@gmail.com</a>
-														<a href="mailto:thaillamaacedo@gmail.com">thaillamaacedo@gmail.com</a>
-													</p>
-												</section>
-											</div>
-											<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-phone">Telefone</h3>
-													<p>
-														(99) 8491-9625<br>
-														(89) 9430-0018													</p>
-												</section>
-											</div>
-										</div>
-									</section>
-
-							</div>
-						</div>
-						<div id="copyright">
-							<ul>
-								<li>&copy; Quem Cuida.</li>
-							</ul>
-						</div>
-					</div>
-				</section>
-
-		</div>
-		<script src="assets/js/jquery.min.js"></script>
-		<script src="assets/js/jquery.dropotron.min.js"></script>
-		<script src="assets/js/browser.min.js"></script>
-		<script src="assets/js/breakpoints.min.js"></script>
-		<script src="assets/js/util.js"></script>
-		<script src="assets/js/main.js"></script>
-
-		<!-- SCRIPT DO EFEITO DE DIGITAÇÃO -->
-		<script>
-			const text = "Quem cuida de todos, também precisa ser cuidado.";
-			let index = 0;
-
-			function typeWriter() {
-				const el = document.getElementById("typing");
-				if (!el) return;
-				if (index < text.length) {
-					el.innerHTML += text.charAt(index);
-					index++;
-					setTimeout(typeWriter, 70);
-				}
-			}
-			window.addEventListener("load", typeWriter);
-		</script>
-
-	</body>
+      function typeWriter() {
+        const el = document.getElementById("typing");
+        if (!el) return;
+        if (index < text.length) {
+          el.innerHTML += text.charAt(index);
+          index++;
+          setTimeout(typeWriter, 70);
+        }
+      }
+      window.addEventListener("load", typeWriter);
+    </script>
+  </body>
 </html>
